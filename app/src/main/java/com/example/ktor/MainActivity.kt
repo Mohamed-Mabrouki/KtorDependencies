@@ -29,11 +29,7 @@ import java.net.InetSocketAddress
 import java.net.Proxy
 
 
-val client = HttpClient(Android).config {
-	install(ContentNegotiation) {
-		json()
-	}
-}
+val client = Client().client
 
 class MainActivity : ComponentActivity() {
 	@OptIn(DelicateCoroutinesApi::class)
@@ -46,29 +42,14 @@ class MainActivity : ComponentActivity() {
 					modifier = Modifier.fillMaxSize(),
 					color = MaterialTheme.colorScheme.background,
 				) {
-					val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
-						throwable.printStackTrace()
-					}
-					GlobalScope.launch {
-						withContext(Dispatchers.IO) {
-							val response : HttpResponse = client.get("https://jsonplaceholder" +
-								".typicode.com/posts")
-							Log.d("my response", "${response.status}")
-						}
-					}
+
+
 				}
 			}
 		}
 	}
 }
 
-//suspend fun request() {
-//	val client = HttpClient()
-//	val response : HttpResponse = client.get("https://jsonplaceholder.typicode.com/posts")
-//	Log.d("my response", "${response.status}")
-//	client.close()
-//
-//}
 
 
 
